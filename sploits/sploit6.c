@@ -9,7 +9,6 @@
 
 int main(void)
 {
-	//char arg1[] = "$5$afkj23234ASF$T.C3isXspLrawvd2smItz4/.r15VkfIW/xxIlgtVixB";
 	char arg1[1024];
 	char arg2[8]; //1023
 	char arg3[3] = "-c";
