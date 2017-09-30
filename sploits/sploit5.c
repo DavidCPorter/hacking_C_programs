@@ -16,12 +16,13 @@ int main(void)
 	char *env[] = { NULL };
 	
 	fd = open(arg1, O_CREAT | O_RDWR, 0666);
-	write(fd, "create 0 AAAAA\n", 15);
-	write(fd, "create 1 BBBBBB\n", 16);
-	write(fd, "create 2 CCCCCCCCCCCCCCCCCC\n", 28);
-	write(fd, "combine 2 1 1\n", 14);
-	write(fd, "create 0 AAAAAAAAAAAAAA\n", 24);
+	write(fd, "create 0 a\n", 11);
+	write(fd, "create 1 bbbb\n", 14);
+	write(fd, "create 2 cccccccccccccccccccccccc\n", 34);
+	write(fd, "combine 2 1 2\n", 14);
+	write(fd, "create 0 aaaaaaaaaaaa\xbd\xfd\xff\xbe\n", 26);
 	write(fd, "delete 1\n", 9);
+	close(fd);
 
 	if (0 > execve(TARGET, args, env))
 		fprintf(stderr, "execve failed.\n");
