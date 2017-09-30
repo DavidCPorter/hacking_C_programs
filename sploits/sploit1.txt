@@ -1,1 +1,5 @@
-Use this file to explain how your sploit1 works.
+Target 1 has a bug since strcpy(_) doesn't check the lenth of the argument when it copies into the string. Thus, you are able to overwrite the buffer that was created for the string. If done properly, you can overwrite the return address that's stored on the stack for the previous stack frame with
+the address to your shellcode somewhere on the stack. So when foo finishes,
+the malicious return address will be popped and the ip will execute shellcode
+on the stack. The constant address represents the malicious return address
+which overwrites the ip return address.  
