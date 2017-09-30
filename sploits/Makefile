@@ -12,7 +12,7 @@ LDLIBS := -lcrypt
 
 # sources
 sources := sploit1.c sploit2.c sploit3.c sploit4.c sploit5.c sploit6.c
-sploits := $(sources:.c=)i
+sploits := $(sources:.c=)
 targets1 := target1 target2 target3 target4 target5 target6
 targets := ../targets/target1 ../targets/target2 ../targets/target3 ../targets/target4 ../targets/target5 ../targets/target6
 installed_targets := $(addprefix /tmp/,$(targets1))
