@@ -1,1 +1,13 @@
-Use this file to explain how your sploit4 works.
+Target 4 has a bug since the string size validation before a strcpy funtion is
+called is done using a parameter that can be manipulated. When done correctly,
+you can pass in more characters to the strcpy thus overwriting the stack where
+the virtual funtions are stored. Immediately after the strcpy, a call to the
+vitual funtion .getLen() happens. We looked at the asm for this and discovered
+the virtualfuntion addresses are loaded in the registers, then branched to. If we
+overworte the addresses with addressed to a place on the stack where the
+shellcode is, we'd be able to branch to the shellcode at the blx instruction,
+thus executing the shellcode. The constant addresses in the
+sploit file correspond to the stack memory where the asm steps look for
+the addresses of the vitual funtions, instead, they are address of the areas
+in the stack so that the instructions loaded the address for the shellcode
+before it branched to it. 
