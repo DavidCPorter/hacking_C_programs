@@ -1,1 +1,20 @@
-Use this file to explain how your sploit5 works.
+Target 5 has a bug in the combine_strings function. During this funtion, the
+string_table is used to retrieve the addresses for the strings that will be
+combined. The function allocates space on the heap for the new combined string
+buffer by reallocating one of the stringtable strings which the smalloc
+subsystem will do by freeing the stringtable string and relocating to a bigger
+heap buffer. When this happens the code doesn't remove the reference to the
+reallocated string_table address, thus leaving the string_table holding an
+address to a dangled pointer. This dangled pointer points to a chunk
+that the smalloc subsystem beleives is free. Fortunately for the
+exploiter, there's a function delete_string that uses the string_table as a
+pointer reference to heap space. The object is to exploit the sfree
+instructions by calling free on a dangled pointer in the heap whose header
+info hhas been overwritten by the previous chunk in contiguous memory when we
+called create_string command on that same allocated chunk.
+This will overwrite the danlged pointer with your new instructions in the
+header space of the old freed chunk. If that is all set up correctly, you can
+call delete_string on the dangling pointer by simply passing the table
+reference to the delete_string function. This will use the smalloc subsystem
+to perform a jump instruction, which will then contain a pointer the your
+shellcode stored on the stack since it cannot be executed from the heap.  
