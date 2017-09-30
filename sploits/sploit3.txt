@@ -1,1 +1,15 @@
-Use this file to explain how your sploit3 works.
+In this exploit we use the vulnerability caused by the format string in
+snprintf. 
+
+We use the %n in order to write whatever number we want in the buffer and so,
+considering there is no check for overflow, we can also easily overlfow the
+buffer and overwrite the return address. 
+
+What we have done is figuring out the address of the shellcode in the stack
+and then just insert 4 %n at the end of the format string preceeded by some %x
+with dimension inside in order to write big numbers in the stack (the address
+is big number). 
+Every time a %n is found all the bytes vefore are summed up, so the last %n
+will count all the bytes before considering also the ones before the %n. 
+I have also used a %c as format when I needed to sum up just 3 bytes like
+passing for example from fc to ff.

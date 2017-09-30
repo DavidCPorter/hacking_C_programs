@@ -1,1 +1,21 @@
-Use this file to explain how your sploit2 works.
+This sploit is very similar to the first one. The only difference is that now
+the target checks that the number of widget that must be copied is less than
+the max number the buffer of struct widget can contain.
+
+But the number of widget (count) is passed by commandline. The vulnerable of
+the target is that tha comparison between count and MAX_WIDGETS considers
+numbers like signed while the dimensione in memcpy consider the size as
+unsigned.
+
+Considering that the sign numbers are in 2complements we can pass a negative
+number not so little, otherwise the unsigned one would be huge and memcpy
+won't be executed. So i used -134217509 in this way the size used in memcpy
+will be almost 7000 and will make the memcpy executed. 
+
+The dimension of the string in orther to overflow the buffer is 7008 because
+the MAX number of widgets is 204 and each one is 32bit so we need to put more
+than 6528 bytes.
+
+Then, figuring out the dimension on the stack to overwrite the instruction
+pointer, we can insert there the address of the shellcode in the stack. This
+is the same for sploit1. 

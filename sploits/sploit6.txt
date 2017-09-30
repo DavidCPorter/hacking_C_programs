@@ -1,0 +1,31 @@
+n the exploit 6 we really dont need to overwrite any address in the
+stack because there is already an exec funtion that we can use to
+lunch the shell. The issue is that to execute that code we need to be
+"authorized" and the size of the log is checked in order to prevent
+overflows.
+
+In the function writing the log there is a bug. When checking the
+length it doesn't consider that the strcat writes the '\0' too so if
+the argument we pass has the prefect legth of log (considering that
+log already contains a string) when strcat puts the '\0' at the end it
+actually overflows the next global variable that luckily is the
+log_size. In this way the less significative byte of the length is
+overwritten and so the length that is 1056 is decreased to 1032 and we
+can iterate another time in the for. So in the next operation we can
+overflow the log with other 24bytes that are enough to write wathever
+we want into log_size and authorized.
+
+So in authorized we just need to write something to make it TRUE when
+tested while in log_size we need a number small than 1056 in order to
+pass the control in the main. 
+We can't write zeros otherwise the strcat will consider it as end of
+line character and so the idea is to write e negative number in order
+to make the controll in the main passed. 
+So we just need to write a 1 as most significative bit.
+
+What we should do now is to pass the next arguments to target in order
+to make it execute the command we want. So we can pass a /bin/sh
+followd by -c and than another /bin/sh to make it continue after the
+end of the program. Then we have also put an echo in order to use a
+the very long string passed as argument to overflow into  acommand
+without compromising the shell.
