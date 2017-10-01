@@ -18,3 +18,16 @@ call delete_string on the dangling pointer by simply passing the table
 reference to the delete_string function. This will use the smalloc subsystem
 to perform a jump instruction, which will then contain a pointer the your
 shellcode stored on the stack since it cannot be executed from the heap.  
+
+So what we have to do is overwriting the left and right pointer of the chunk
+"1" allocating a proper string in the first one with a create 0. 
+
+We overwrote the right pointer with the return address of the main and the
+left one with the address to a junp instruction in the stack that will jump to
+our shellcode.
+
+To make the shellcode and the jump code available in the target program we
+passed this parameters as environment variable in the exec in the sploit. 
+The only issue is that he jump address and the shellcode address must be
+aligned, for this reason we put some garbage variable in the environment
+containing "AAAAA", in this way we can jump to the shellcode.
